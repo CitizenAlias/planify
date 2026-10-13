@@ -147,7 +147,7 @@ public class Services.CalDAV.WebDAVClient : GLib.Object {
         }
 
         if (!ok) {
-            var response_text = (string) response.get_data ();
+            var response_text = Util.get_default ().bytes_to_string (response);
             Services.LogService.get_default ().error ("WebDAV", "%s %s failed: HTTP %u %s".printf (method, abs_url, msg.status_code, msg.reason_phrase ?? ""));
             throw new GLib.IOError.FAILED (
                 "%s %s failed: HTTP %u %s\n%s".printf (

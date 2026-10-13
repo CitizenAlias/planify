@@ -461,6 +461,16 @@ public class Util : GLib.Object {
         return text.length > 0;
     }
 
+    // GLib.Bytes (e.g. a Soup response body) is not nul-terminated, so casting
+    // get_data () to string can read past the end. Copy only get_size () bytes.
+    public string bytes_to_string (GLib.Bytes bytes) {
+        if (bytes.get_size () == 0) {
+            return "";
+        }
+
+        return ((string) bytes.get_data ()).substring (0, (long) bytes.get_size ());
+    }
+
     public string get_short_name (string name, int size = Constants.SHORT_NAME_SIZE) {
         string returned = name;
         

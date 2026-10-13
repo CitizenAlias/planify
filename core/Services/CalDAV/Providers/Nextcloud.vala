@@ -72,7 +72,7 @@ public class Services.CalDAV.Providers.Nextcloud : Object {
         try {
             GLib.Bytes stream = yield session.send_and_read_async (message, GLib.Priority.HIGH, cancellable);
 
-            parser.load_from_data ((string) stream.get_data ());
+            parser.load_from_data (Util.get_default ().bytes_to_string (stream));
 
             var root = parser.get_root ().get_object ();
 
@@ -98,7 +98,7 @@ public class Services.CalDAV.Providers.Nextcloud : Object {
                 try {
                     GLib.Bytes poll_response = yield session.send_and_read_async (poll_msg, GLib.Priority.HIGH, cancellable);
 
-                    var poll_str = (string) poll_response.get_data ();
+                    var poll_str = Util.get_default ().bytes_to_string (poll_response);
 
                     Json.Parser poll_parser = new Json.Parser ();
                     poll_parser.load_from_data (poll_str);

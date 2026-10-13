@@ -33,7 +33,7 @@ public class Services.Api : GLib.Object {
         var message = new Soup.Message ("GET", "https://flathub.org/api/v2/appstream/io.github.alainm23.planify?locale=en");
         
         var response = yield session.send_and_read_async (message, Priority.DEFAULT, null);
-        var json_string = (string) response.get_data ();
+        var json_string = Util.get_default ().bytes_to_string (response);
         
         var parser = new Json.Parser ();
         parser.load_from_data (json_string);

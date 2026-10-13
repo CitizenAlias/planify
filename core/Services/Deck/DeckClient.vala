@@ -80,7 +80,7 @@ public class Services.Deck.DeckClient : Object {
         Services.LogService.get_default ().debug ("Deck", "%s %s%s".printf (method, base_url, endpoint));
 
         var bytes = yield session.send_and_read_async (msg, Priority.DEFAULT, null);
-        var response = (string) bytes.get_data ();
+        var response = Util.get_default ().bytes_to_string (bytes);
 
         if (msg.status_code == 304) {
             return new Json.Array ();
@@ -109,7 +109,7 @@ public class Services.Deck.DeckClient : Object {
         Services.LogService.get_default ().debug ("Deck", "%s %s%s\nBody: %s".printf (method, base_url, endpoint, body ?? "(null)"));
 
         var bytes = yield session.send_and_read_async (msg, Priority.DEFAULT, null);
-        var response = (string) bytes.get_data ();
+        var response = Util.get_default ().bytes_to_string (bytes);
 
         if (msg.status_code < 200 || msg.status_code >= 300) {
             throw new GLib.IOError.FAILED ("HTTP %u: %s".printf (msg.status_code, response));

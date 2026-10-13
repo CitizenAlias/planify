@@ -49,7 +49,7 @@ public class Services.TodoistProjects : GLib.Object {
         try {
             GLib.Bytes stream = yield session.send_and_read_async (message, GLib.Priority.HIGH, null);
             var parser = new Json.Parser ();
-            parser.load_from_data ((string) stream.get_data ());
+            parser.load_from_data (Util.get_default ().bytes_to_string (stream));
 
             if (Services.Todoist.get_default ().is_todoist_error (message.status_code)) {
                 response.from_error_json (parser.get_root ());
@@ -108,7 +108,7 @@ public class Services.TodoistProjects : GLib.Object {
         try {
             GLib.Bytes stream = yield session.send_and_read_async (message, GLib.Priority.HIGH, null);
             var parser = new Json.Parser ();
-            parser.load_from_data ((string) stream.get_data ());
+            parser.load_from_data (Util.get_default ().bytes_to_string (stream));
 
             if (Services.Todoist.get_default ().is_todoist_error (message.status_code)) {
                 response.from_error_json (parser.get_root ());

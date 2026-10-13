@@ -123,7 +123,7 @@ public class Services.Todoist : GLib.Object {
         try {
             GLib.Bytes stream = yield session.send_and_read_async (message, GLib.Priority.LOW, null);
             var parser = new Json.Parser ();
-            parser.load_from_data ((string) stream.get_data ());
+            parser.load_from_data (Util.get_default ().bytes_to_string (stream));
 
             if (!parser.get_root ().get_object ().has_member ("error")) {
                 source.todoist_data.sync_token = parser.get_root ().get_object ().get_string_member ("sync_token");
@@ -275,7 +275,7 @@ public class Services.Todoist : GLib.Object {
         try {
             GLib.Bytes stream = yield session.send_and_read_async (message, GLib.Priority.LOW, null);
             var parser = new Json.Parser ();
-            parser.load_from_data ((string) stream.get_data ());
+            parser.load_from_data (Util.get_default ().bytes_to_string (stream));
 
             var node = parser.get_root ().get_object ();
             source.todoist_data.sync_token = node.get_string_member ("sync_token");

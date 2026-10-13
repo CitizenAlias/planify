@@ -47,7 +47,7 @@ public class Services.TodoistAuth : GLib.Object {
         try {
             GLib.Bytes stream = yield session.send_and_read_async (message, GLib.Priority.HIGH, null);
             var parser = new Json.Parser ();
-            parser.load_from_data ((string) stream.get_data ());
+            parser.load_from_data (Util.get_default ().bytes_to_string (stream));
 
             var root = parser.get_root ().get_object ();
             var token = root.get_string_member ("access_token");
@@ -99,7 +99,7 @@ public class Services.TodoistAuth : GLib.Object {
             }
 
             Services.LogService.get_default ().info ("Todoist", "Token validated successfully");
-            parser.load_from_data ((string) stream.get_data ());
+            parser.load_from_data (Util.get_default ().bytes_to_string (stream));
 
             var source = new Objects.Source ();
             source.id = Util.get_default ().generate_id ();
